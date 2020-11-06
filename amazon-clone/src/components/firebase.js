@@ -3,6 +3,7 @@ import firebase from "firebase"
 
 
 const firebaseConfig = {
+  
     apiKey: "YOURR KEY HERE",
     authDomain: "YOUR DOMAIN",
     databaseURL: "YOUR DATABASEURL HERE",
@@ -11,7 +12,7 @@ const firebaseConfig = {
     messagingSenderId: "MESSAGING SENDER ID HERE",
     appId: "YOUR APP ID HERE"
   };
-
+ 
 
   const firebaseApp = firebase.initializeApp(firebaseConfig);
 

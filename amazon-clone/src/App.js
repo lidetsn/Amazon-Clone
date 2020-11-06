@@ -1,18 +1,29 @@
 import  React,{useEffect} from "react"
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
+import {useHistory,BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import { useStateValue } from "./StateProvider";
 import { auth } from "./components/firebase";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 import Home from "./pages/Home"
 import Header from "./components/Header"
 import Login from "./components/Login"
+import Checkout from "./components/Checkout"
+import Payment from "./components/Payment";
 
-import dotenv from "dotenv"
 
+//======
+
+
+const promise = loadStripe(
+  "YOUR STRIP KEY HERE"
+     );
 
 function App() {
-  dotenv.config()
+
   const [{}, dispatch] = useStateValue();
+  const history = useHistory();
+
 
         useEffect(() => {
 
@@ -32,27 +43,40 @@ function App() {
                           type: "SET_USER",
                           user: null,
                         });
+                        history.push("/")
                       }
                     });
-        }, [dispatch]);
+        }, [dispatch,history]);
 
   return (
-    <div>
-        <Router>
-          <Switch>
-            <Route path="/" exact >
-            <Header/>
-            <Home/>
+    <Router>
+      <div className="App">
+        <Switch>
+              <Route path="/login">
+                  <Login />
+              </Route>
 
-            </Route>
-            <Route path="/login" >
-            <Login/>
+             
+              
+              <Route path="/checkout">
+                  <Header />
+                  <Checkout />
+              </Route>
 
-            </Route>
-                
-          </Switch>
-        </Router>
-    </div>
+              <Route path="/payment">
+                   <Header />
+                   <Elements stripe={promise}>
+                       <Payment />
+                    </Elements>
+              </Route>
+
+              <Route path="/">
+                    <Header />
+                    <Home />
+              </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
