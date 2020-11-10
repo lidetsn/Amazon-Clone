@@ -25,12 +25,19 @@ function Payment() {
     useEffect(() => {
         // generate the special stripe secret which allows us to charge a customer
         const getClientSecret = async () => {
-            const response = await axios({
-                method: 'post',
-                // Stripe expects the total in a currencies subunits
-                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
-            });
-            setClientSecret(response.data.clientSecret)
+            try {
+                const response = await axios({
+                    method: 'post',
+                    // Stripe expects the total in a currencies subunits
+                    url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+                });
+                setClientSecret(response.data.clientSecret)
+                
+            } catch (error) {
+                console.log(error)
+                
+            }
+           
         }
 
         getClientSecret();
@@ -40,7 +47,9 @@ function Payment() {
     console.log('👱', user)
 
     const handleSubmit = async (event) => {
-        // do all the fancy stripe stuff...
+
+        try {
+            // do all the fancy stripe stuff...
         event.preventDefault();
         setProcessing(true);
 
@@ -72,6 +81,12 @@ function Payment() {
 
             history.replace('/orders')
         })
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+        
 
     }
 
@@ -99,8 +114,8 @@ function Payment() {
                     </div>
                     <div className='payment__address'>
                         <p>{user?.email}</p>
-                        <p>123 React Lane</p>
-                        <p>Los Angeles, CA</p>
+                        <p>123 React</p>
+                        <p>Seattle,Wa</p>
                     </div>
                 </div>
 

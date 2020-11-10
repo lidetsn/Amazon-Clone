@@ -10,14 +10,14 @@ import Header from "./components/Header"
 import Login from "./components/Login"
 import Checkout from "./components/Checkout"
 import Payment from "./components/Payment";
+import Orders from "./components/Orders";
 
 
-//======
 
 
 const promise = loadStripe(
-  "YOUR STRIP KEY HERE"
-     );
+"YOUR STRIPE PUBLISHABLE KEY"     );
+//Publishable key
 
 function App() {
 
@@ -56,7 +56,10 @@ function App() {
                   <Login />
               </Route>
 
-             
+              <Route path="/orders">
+                  <Header />
+                  <Orders />
+              </Route>
               
               <Route path="/checkout">
                   <Header />
